@@ -9,6 +9,11 @@ module ActiveRecord
       @attributes = attributes
     end
 
+    def self.table_name
+      name.downcase + "s"
+    end
+
+    # instance level
     def table_name
       self.class.table_name
     end
@@ -24,13 +29,27 @@ module ActiveRecord
       end
     end
 
-    def self.find(id)
-      attributes = @@connection.execute("SELECT * FROM #{table_name} WHERE users.id = #{id.to_i} LIMIT 1").first
-      new(attributes)
+    def self.find_by_sql(sql)
+      @@connection.execute(sql).map do |attributes|
+        new(attributes)
+      end
     end
 
-    def self.table_name
-      name.downcase + "s"
+    def self.find(id)
+      # attributes = @@connection.execute("SELECT * FROM #{table_name} WHERE users.id = #{id.to_i} LIMIT 1").first
+      # new(attributes)
+
+      attributes = find_by_sql("SELECT * FROM #{table_name} WHERE users.id = #{id.to_i} LIMIT 1").first
+    end
+
+    def self.all
+      # atrribute_hash = @@connection.execute("SELECT * FROM #{table_name}")
+      # users = []
+      # atrribute_hash.each { |h| users << new(h) }
+      # users
+      # atrribute_hash.map { |h| new(h) }
+
+      atrribute_hash = find_by_sql("SELECT * FROM #{table_name}")
     end
   end
 end
