@@ -1,6 +1,18 @@
 require "action_controller"
 require "application_controller"
+require "active_record"
+require "router"
+require "config/routes"
 require "pry"
+
+# always require model file
+# class Object
+#   def const_missing(name)
+#     name  # User
+#     require name.to_s.downcase
+#   end
+# end
+
 
 class Application
   def call(env)
@@ -25,8 +37,9 @@ class Application
 
   def route(path)
     # => "/home/index" => ["", "home", "index"]
-    _, controller_name, action_name = path.split("/")
-    [controller_name || "home", action_name || "index"]
+    # _, controller_name, action_name = path.split("/")
+    # [controller_name || "home", action_name || "index"]
+    Routes.recognize(path)
   end
 
   def load_controller_class(name)
