@@ -1,8 +1,13 @@
 require "connection_adapter"
+# every component has dependency on each other
+# so need to all file
+require "active_model"
 require "pry"
 
 module ActiveRecord
   class Base
+    include ActiveModel::Validations
+
     @@connection = SqliteAdapter.new
 
     def initialize(attributes={})
