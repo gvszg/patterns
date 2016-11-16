@@ -1,4 +1,4 @@
-require "user"
+# require "user"
 
 class UsersController < ApplicationController
   def index

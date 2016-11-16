@@ -1,8 +1,9 @@
-require "action_controller"
-require "application_controller"
-require "active_record"
-require "router"
-require "config/routes"
+# require "action_controller"
+# require "application_controller"
+# require "active_record"
+# require "router"
+# require "config/routes"
+require "autoloading"
 require "pry"
 
 # always require model file
@@ -44,7 +45,7 @@ class Application
 
   def load_controller_class(name)
     # "home" => HomeController
-    require "#{name}_controller" # require "home_controller"
+    # require "#{name}_controller" # require "home_controller"
     Object.const_get(name.capitalize + "Controller") # HomeController
   end
 end
